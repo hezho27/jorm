@@ -151,6 +151,22 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return getNamedParameterJdbcTemplate().queryForLong(sql, params);
     }
 
+    public T findOne(Filter... filters) {
+        List<T> results = findList(Arrays.asList(filters));
+        if (results.size() > 1) {
+            throw new RuntimeException();
+        }
+        return results.size() > 0 ? results.get(0) : null;
+    }
+
+    public T findOne(Expression expression) {
+        List<T> results = findList(expression);
+        if (results.size() > 1) {
+            throw new RuntimeException();
+        }
+        return results.size() > 0 ? results.get(0) : null;
+    }
+
     protected static JMapSqlParameterSource filters2Map(Filter... filters) {
         JMapSqlParameterSource params = new JMapSqlParameterSource();
         if (filters == null) {
