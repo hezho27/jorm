@@ -11,29 +11,29 @@ public class ClassUtils {
         if (calzz == String.class) {
             return true;
         }
-        if (calzz == Long.class) {
+        if (calzz == Long.class || calzz == long.class) {
             return true;
         }
         if (calzz == Date.class) {
             return true;
         }
-        if (calzz == Double.class) {
+        if (calzz == Double.class || calzz == double.class) {
             return true;
         }
-        if (calzz == Boolean.class) {
+        if (calzz == Boolean.class || calzz == boolean.class) {
             return true;
         }
 
-        if (calzz == Integer.class) {
+        if (calzz == Integer.class || calzz == int.class) {
             return true;
         }
-        if (calzz == Float.class) {
+        if (calzz == Float.class || calzz == float.class) {
             return true;
         }
-        if (calzz == Short.class) {
+        if (calzz == Short.class || calzz == short.class) {
             return true;
         }
-        if (calzz.isEnum()){
+        if (calzz.isEnum()) {
             return true;
         }
         return false;

@@ -32,22 +32,22 @@ public class DefaultRowMapper<T> implements RowMapper<T> {
                 Object value = null;
                 if (clazz == String.class) {
                     value = rs.getString(columnName);
-                } else if (clazz == Long.class) {
+                } else if (clazz == Long.class || clazz == long.class) {
                     value = rs.getLong(columnName);
                 } else if (clazz == Date.class) {
                     Timestamp timestamp = rs.getTimestamp(columnName);
                     if (timestamp != null) {
                         value = new Date(timestamp.getTime());
                     }
-                } else if (clazz == Double.class) {
+                } else if (clazz == Double.class || clazz == double.class) {
                     value = rs.getDouble(columnName);
-                } else if (clazz == Boolean.class) {
+                } else if (clazz == Boolean.class || clazz == boolean.class) {
                     value = rs.getBoolean(columnName);
-                } else if (clazz == Integer.class) {
+                } else if (clazz == Integer.class || clazz == int.class) {
                     value = rs.getInt(columnName);
-                } else if (clazz == Float.class) {
+                } else if (clazz == Float.class || clazz == float.class) {
                     value = rs.getFloat(columnName);
-                } else if (clazz == Short.class) {
+                } else if (clazz == Short.class || clazz == short.class) {
                     value = rs.getShort(columnName);
                 } else if (clazz.isEnum()) {
                     value = rs.getString(columnName);
