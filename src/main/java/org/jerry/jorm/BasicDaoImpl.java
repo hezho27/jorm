@@ -152,6 +152,7 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return getNamedParameterJdbcTemplate().queryForLong(sql, params);
     }
 
+    @Override
     public T findOne(Filter... filters) {
         List<T> results = findList(Arrays.asList(filters));
         if (results.size() > 1) {
@@ -160,6 +161,7 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return results.size() > 0 ? results.get(0) : null;
     }
 
+    @Override
     public T findOne(Expression expression) {
         List<T> results = findList(expression);
         if (results.size() > 1) {

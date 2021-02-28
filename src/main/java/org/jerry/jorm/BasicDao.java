@@ -35,4 +35,8 @@ public interface BasicDao<T, ID extends Serializable> {
     long count(Filter... filters);
 
     long count(Expression expression);
+
+    T findOne(Filter... filters);
+
+    T findOne(Expression expression);
 }
