@@ -2,6 +2,7 @@ package org.jerry.jorm;
 
 import org.jerry.jorm.descriptor.EntityDescriptionManager;
 import org.jerry.jorm.descriptor.EntityDescriptor;
+import org.jerry.jorm.exception.NotOneResultException;
 import org.jerry.jorm.rowmapper.DefaultRowMapper;
 import org.jerry.jorm.sqlgenerator.sql.SQLGenerator;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
@@ -154,7 +155,7 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
     public T findOne(Filter... filters) {
         List<T> results = findList(Arrays.asList(filters));
         if (results.size() > 1) {
-            throw new RuntimeException();
+            throw new NotOneResultException();
         }
         return results.size() > 0 ? results.get(0) : null;
     }
@@ -162,7 +163,7 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
     public T findOne(Expression expression) {
         List<T> results = findList(expression);
         if (results.size() > 1) {
-            throw new RuntimeException();
+            throw new NotOneResultException();
         }
         return results.size() > 0 ? results.get(0) : null;
     }
