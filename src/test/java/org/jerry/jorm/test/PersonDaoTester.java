@@ -79,7 +79,7 @@ public class PersonDaoTester {
 
     @Test
     public void test07() {
-        Person person = personDao.findOne(Filter.eq("age", 12));
+        Person person = personDao.findOne(Filter.eq("id", "1").or(Filter.eq("id","3")));
         System.out.println(person);
     }
 
