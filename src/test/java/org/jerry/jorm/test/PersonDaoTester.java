@@ -1,5 +1,6 @@
 package org.jerry.jorm.test;
 
+import org.jerry.jorm.Expression;
 import org.jerry.jorm.Filter;
 import org.jerry.jorm.Order;
 import org.jerry.jorm.test.dao.PersonDao;
@@ -54,7 +55,7 @@ public class PersonDaoTester {
 
     @Test
     public void test4() {
-        List<Person> persons = personDao.findList(null, Order.asc("id"));
+        List<Person> persons = personDao.findList((Expression) null, Order.asc("id"));
         System.out.println(persons);
     }
 
@@ -72,8 +73,14 @@ public class PersonDaoTester {
 
         Person person = personDao.find("1");
         person.setGender(Person.Gender.male);
-        personDao.update(person,true);
+        personDao.update(person, true);
 
+    }
+
+    @Test
+    public void test07() {
+        Person person = personDao.findOne(Filter.eq("id", "1"));
+        System.out.println(person);
     }
 
 

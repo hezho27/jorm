@@ -307,10 +307,10 @@ public class MySQLGenerator implements SQLGenerator {
     }
 
     @Override
-    public String generateSelectCountSql(EntityDescriptor entityDescriptor, Expression expression,List<Filter> filters) {
+    public String generateSelectCountSql(EntityDescriptor entityDescriptor, Expression expression, List<Filter> filters) {
         StringBuffer selectSql = new StringBuffer();
         selectSql.append("select count(1) from ");
-        selectSql.append(entityDescriptor.getTableName()+" ");
+        selectSql.append(entityDescriptor.getTableName() + " ");
         StringBuffer filterSql = new StringBuffer();
         filters = filters == null ? new ArrayList<Filter>() : filters;
         r(expression, entityDescriptor, filterSql, filters);
@@ -330,7 +330,7 @@ public class MySQLGenerator implements SQLGenerator {
         StringBuffer filterSql = new StringBuffer();
         for (int i = 0; i < filters.length; i++) {
             Filter filter = filters[i];
-            filter2Sql(entityDescriptor, filter, i);
+            filterSql.append(filter2Sql(entityDescriptor, filter, i));
             filterSql.append(" and");
         }
         int length = filterSql.length();
@@ -387,7 +387,7 @@ public class MySQLGenerator implements SQLGenerator {
             for (int i = 0; i < size; i++) {
                 r(filterableList.get(i), entityDescriptor, filterSql, filters);
                 if (i < logicOperatorList.size()) {
-                    filterSql.append(" "+logicOperatorList.get(i)+" ");
+                    filterSql.append(" " + logicOperatorList.get(i) + " ");
                 }
 
             }
