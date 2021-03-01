@@ -1,7 +1,6 @@
 package org.jerry.jorm.test.entiry;
 
 import org.jerry.jorm.annotation.Entity;
-import org.jerry.jorm.annotation.Id;
 import org.jerry.jorm.annotation.Table;
 
 /**
@@ -9,25 +8,17 @@ import org.jerry.jorm.annotation.Table;
  */
 @Entity
 @Table(name = "t_person")
-public class Person {
+public class Person extends BaseEntity {
     public enum Gender {
         female, male
     }
 
-    private String id;
     private Gender gender = Gender.female;
     private String name;
     private Integer age;
     private String address;
 
-    @Id
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Gender getGender() {
         return gender;

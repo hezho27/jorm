@@ -170,6 +170,14 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return results.size() > 0 ? results.get(0) : null;
     }
 
+
+    public GridJson page(Integer page, Integer rows, List<Filter> filters, String sidx, String sord) {
+        int first = (page - 1) * rows;
+        List<T> data = findList(first, rows, filters, new Order(sidx, Order.Direction.fromString(sord)));
+        long count = count(filters.toArray(new Filter[]{}));
+        return new GridJson(page, count, rows, data);
+    }
+
     protected static JMapSqlParameterSource filters2Map(Filter... filters) {
         JMapSqlParameterSource params = new JMapSqlParameterSource();
         if (filters == null) {
