@@ -52,4 +52,13 @@ public class Person extends BaseEntity {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "gender=" + gender +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

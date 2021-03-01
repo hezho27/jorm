@@ -39,4 +39,24 @@ public interface BasicDao<T, ID extends Serializable> {
     T findOne(Filter... filters);
 
     T findOne(Expression expression);
+
+    /**
+     * @param page    第几页,从1开始
+     * @param rows    每页记录数
+     * @param filters 过滤条件
+     * @param sidx    排序字段
+     * @param sord    排序值  asc desc
+     * @return
+     */
+    GridJson page(Integer page, Integer rows, List<Filter> filters, String sidx, String sord);
+
+    /**
+     * @param page       第几页,从1开始
+     * @param rows       每页记录数
+     * @param expression 过滤表达式
+     * @param sidx       排序字段
+     * @param sord       排序值  asc desc
+     * @return
+     */
+    GridJson page(Integer page, Integer rows, Expression expression, String sidx, String sord);
 }

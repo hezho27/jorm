@@ -65,4 +65,14 @@ public class GridJson {
         this.total = (long) Math.ceil((double) records / (double) size);
         this.rows = rows;
     }
+
+    @Override
+    public String toString() {
+        return "GridJson{" +
+                "page=" + page +
+                ", records=" + records +
+                ", total=" + total +
+                ", rows=" + rows +
+                '}';
+    }
 }
