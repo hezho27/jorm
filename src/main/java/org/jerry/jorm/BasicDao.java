@@ -40,6 +40,10 @@ public interface BasicDao<T, ID extends Serializable> {
 
     T findOne(Expression expression);
 
+    T findFirst(List<Filter> filters, Order... orders);
+
+    T findFirst(Expression expression, Order... orders);
+
     /**
      * @param page    第几页,从1开始
      * @param rows    每页记录数

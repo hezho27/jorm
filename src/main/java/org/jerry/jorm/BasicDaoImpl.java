@@ -170,14 +170,28 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return results.size() > 0 ? results.get(0) : null;
     }
 
-   @Override
+
+    @Override
+    public T findFirst(List<Filter> filters, Order... orders) {
+        List<T> list = findList(0, 1, filters, orders);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    @Override
+    public T findFirst(Expression expression, Order... orders) {
+        List<T> list = findList(0, 1, expression, orders);
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    @Override
     public GridJson page(Integer page, Integer rows, List<Filter> filters, String sidx, String sord) {
         int first = (page - 1) * rows;
         List<T> data = findList(first, rows, filters, new Order(sidx, Order.Direction.fromString(sord)));
         long count = count(filters == null ? null : filters.toArray(new Filter[]{}));
         return new GridJson(page, count, rows, data);
     }
-   @Override
+
+    @Override
     public GridJson page(Integer page, Integer rows, Expression expression, String sidx, String sord) {
         int first = (page - 1) * rows;
         List<T> data = findList(first, rows, expression, new Order(sidx, Order.Direction.fromString(sord)));
