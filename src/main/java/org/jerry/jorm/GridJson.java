@@ -62,7 +62,8 @@ public class GridJson {
     public GridJson(int page, long records, long size, List rows) {
         this.page = page;
         this.records = records;
-        this.total = (long) Math.ceil((double) records / (double) size);
+        total = (long) Math.ceil((double) records / (double) size);
+        this.total = total <= 0 ? 1 : total;
         this.rows = rows;
     }
 
