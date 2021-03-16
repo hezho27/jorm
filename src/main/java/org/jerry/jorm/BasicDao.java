@@ -63,4 +63,8 @@ public interface BasicDao<T, ID extends Serializable> {
      * @return
      */
     GridJson page(Integer page, Integer rows, Expression expression, String sidx, String sord);
+
+    GridJson page(Integer page, Integer rows, List<Filter> filters, Order... orders);
+
+    GridJson page(Integer page, Integer rows, Expression expression, Order... orders);
 }

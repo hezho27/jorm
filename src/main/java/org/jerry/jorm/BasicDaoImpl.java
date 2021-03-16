@@ -199,6 +199,22 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         return new GridJson(page, count, rows, data);
     }
 
+    @Override
+    public GridJson page(Integer page, Integer rows, List<Filter> filters, Order... orders) {
+        int first = (page - 1) * rows;
+        List<T> data = findList(first, rows, filters, orders);
+        long count = count(filters == null ? null : filters.toArray(new Filter[]{}));
+        return new GridJson(page, count, rows, data);
+    }
+
+    @Override
+    public GridJson page(Integer page, Integer rows, Expression expression, Order... orders) {
+        int first = (page - 1) * rows;
+        List<T> data = findList(first, rows, expression, orders);
+        long count = count(expression);
+        return new GridJson(page, count, rows, data);
+    }
+
     protected static JMapSqlParameterSource filters2Map(Filter... filters) {
         JMapSqlParameterSource params = new JMapSqlParameterSource();
         if (filters == null) {
