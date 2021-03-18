@@ -14,6 +14,10 @@ public class MySQLTypeMapper {
             return "INT";
         } else if (clazz == Long.class || clazz == long.class) {
             return "INT(11)";
+        } else if (clazz == Double.class || clazz == double.class) {
+            return "DOUBLE";
+        } else if (clazz == Float.class || clazz == float.class) {
+            return "FLOAT";
         } else if (clazz == Date.class) {
             return "DATETIME";
         } else if (clazz == Boolean.class || clazz == boolean.class) {
