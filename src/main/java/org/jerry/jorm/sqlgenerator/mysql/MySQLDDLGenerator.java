@@ -1,9 +1,9 @@
-package org.jerry.jorm.sqlgenerator.ddl;
+package org.jerry.jorm.sqlgenerator.mysql;
 
 import org.jerry.jorm.descriptor.EntityDescriptionManager;
 import org.jerry.jorm.descriptor.EntityDescriptor;
 import org.jerry.jorm.descriptor.EntityPropertyDescriptor;
-import org.springframework.jdbc.core.RowCallbackHandler;
+import org.jerry.jorm.sqlgenerator.DDLGenerator;
 
 import javax.sql.DataSource;
 import java.sql.*;

@@ -2,8 +2,8 @@ package org.jerry.jorm;
 
 import org.jerry.jorm.descriptor.EntityDescriptionManager;
 import org.jerry.jorm.sqlgenerator.Dialect;
-import org.jerry.jorm.sqlgenerator.ddl.DDLGenerator;
-import org.jerry.jorm.sqlgenerator.sql.SQLGenerator;
+import org.jerry.jorm.sqlgenerator.DDLGenerator;
+import org.jerry.jorm.sqlgenerator.SQLGenerator;
 
 import javax.sql.DataSource;
 import java.util.Set;

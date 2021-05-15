@@ -1,4 +1,4 @@
-package org.jerry.jorm.sqlgenerator.sql;
+package org.jerry.jorm.sqlgenerator;
 
 /**
  * Created by yong_pliang on 14/10/29.

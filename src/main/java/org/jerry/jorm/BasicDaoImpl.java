@@ -4,7 +4,7 @@ import org.jerry.jorm.descriptor.EntityDescriptionManager;
 import org.jerry.jorm.descriptor.EntityDescriptor;
 import org.jerry.jorm.exception.NotOneResultException;
 import org.jerry.jorm.rowmapper.DefaultRowMapper;
-import org.jerry.jorm.sqlgenerator.sql.SQLGenerator;
+import org.jerry.jorm.sqlgenerator.SQLGenerator;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 

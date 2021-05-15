@@ -1,4 +1,4 @@
-package org.jerry.jorm.sqlgenerator.ddl;
+package org.jerry.jorm.sqlgenerator;
 
 import org.jerry.jorm.descriptor.EntityDescriptionManager;
 

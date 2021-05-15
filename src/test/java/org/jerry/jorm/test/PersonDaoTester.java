@@ -174,7 +174,22 @@ public class PersonDaoTester {
 
     @Test
     public void test08() {
-        GridJson gridJson = personDao.page(1, 2, (List<Filter>) null, "id", "asc");
+        List<Filter> filters=new ArrayList<Filter>();
+        filters.add(Filter.eq("gender", Person.Gender.female));
+        GridJson gridJson = personDao.page(2, 2, filters, "id", "asc");
+        System.out.println(gridJson);
+    }
+
+    /**
+     * 分页查询
+     */
+
+    @Test
+    public void test11() {
+        List<Filter> filters=new ArrayList<Filter>();
+//        filters.add(Filter.eq("gender", Person.Gender.female));
+        Expression expression=Filter.eq("gender", Person.Gender.female).or(Filter.lt("id",2));
+        GridJson gridJson = personDao.page(1, 2, expression, "id", "asc");
         System.out.println(gridJson);
     }
 
@@ -202,6 +217,8 @@ public class PersonDaoTester {
         List<Person> persons = personDao.findList(expression);
         System.out.println(persons);
     }
+
+
 
 
 }

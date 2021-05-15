@@ -1,4 +1,4 @@
-package org.jerry.jorm.sqlgenerator.ddl;
+package org.jerry.jorm.sqlgenerator.mysql;
 
 import java.util.Date;
 

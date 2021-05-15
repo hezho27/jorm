@@ -1,4 +1,4 @@
-package org.jerry.jorm.sqlgenerator.sql;
+package org.jerry.jorm.sqlgenerator;
 
 import org.jerry.jorm.Expression;
 import org.jerry.jorm.Filter;
