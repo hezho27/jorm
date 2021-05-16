@@ -1,7 +1,8 @@
 package org.jerry.jorm.test.entiry;
 
-import org.jerry.jorm.annotation.Entity;
-import org.jerry.jorm.annotation.Table;
+import org.jerry.jorm.annotation.*;
+
+import java.util.Date;
 
 /**
  * Created by yong_pliang on 14/10/31.
@@ -17,6 +18,7 @@ public class Person extends BaseEntity {
     private String name;
     private Integer age;
     private String address;
+    private Date birthday;
 
 
 
@@ -28,6 +30,7 @@ public class Person extends BaseEntity {
         this.gender = gender;
     }
 
+    @Column(length = 40)
     public String getName() {
         return name;
     }
@@ -44,12 +47,22 @@ public class Person extends BaseEntity {
         this.age = age;
     }
 
+    @Lob
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Temporal(TemporalType.DATE)
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     @Override
@@ -59,6 +72,7 @@ public class Person extends BaseEntity {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", address='" + address + '\'' +
+                ", birthday=" + birthday +
                 '}';
     }
 }

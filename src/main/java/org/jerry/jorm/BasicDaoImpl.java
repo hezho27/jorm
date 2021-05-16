@@ -2,11 +2,14 @@ package org.jerry.jorm;
 
 import org.jerry.jorm.descriptor.EntityDescriptionManager;
 import org.jerry.jorm.descriptor.EntityDescriptor;
+import org.jerry.jorm.descriptor.EntityPropertyDescriptor;
 import org.jerry.jorm.exception.NotOneResultException;
 import org.jerry.jorm.rowmapper.DefaultRowMapper;
 import org.jerry.jorm.sqlgenerator.SQLGenerator;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -56,6 +59,21 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
         String sql = sqlGenerator.generateInsertSql(entityDescriptor, t);
         SqlParameterSource params = new JBeanPropertySqlParameterSource(t);
         getNamedParameterJdbcTemplate().update(sql, params);
+        EntityPropertyDescriptor idDescriptor = entityDescriptor.getIdDescriptor();
+        if (idDescriptor.isAuto()) {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            getNamedParameterJdbcTemplate().update(sql, params, keyHolder);
+            String id = keyHolder.getKey().longValue()+"";
+            try {
+                Object oid = idDescriptor.getType().getConstructor(String.class).newInstance(id);
+                idDescriptor.getWriteMethod().invoke(t, oid);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            getNamedParameterJdbcTemplate().update(sql, params);
+        }
 
     }
 

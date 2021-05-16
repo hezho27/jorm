@@ -48,7 +48,16 @@ public class MySQLDDLGenerator extends DDLGenerator {
                         String colName = entityPropertyDescriptor.getColName();
                         Class clazz = entityPropertyDescriptor.getType();
                         if (!dbColnmns.contains(colName)) {
-                            ddl.append(" add `" + colName + "` " + MySQLTypeMapper.mapping(clazz) + ",");
+                            ddl.append(" add `" + colName + "` " + MySQLTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
+                            if (!entityPropertyDescriptor.isNullable()) {
+                                ddl.append(" NOT NULL ");
+                            }
+
+                            if (entityPropertyDescriptor.isUnique()) {
+                                ddl.append(" UNIQUE ");
+                            }
+
+                            ddl.append(" , ");
                         }
                     }
 
@@ -61,7 +70,20 @@ public class MySQLDDLGenerator extends DDLGenerator {
                     for (EntityPropertyDescriptor entityPropertyDescriptor : entityPropertyDescriptors) {
                         String colName = entityPropertyDescriptor.getColName();
                         Class clazz = entityPropertyDescriptor.getType();
-                        ddl.append(" `" + colName + "` " + MySQLTypeMapper.mapping(clazz) + ",");
+                        ddl.append(" `" + colName + "` " + MySQLTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
+                        if (!entityPropertyDescriptor.isNullable()) {
+                            ddl.append(" NOT NULL ");
+                        }
+
+                        if (entityPropertyDescriptor.isId() && entityPropertyDescriptor.isAuto()) {
+                            ddl.append(" AUTO_INCREMENT ");
+                        }
+
+                        if (entityPropertyDescriptor.isUnique()) {
+                            ddl.append(" UNIQUE ");
+                        }
+
+                        ddl.append(" , ");
                     }
                     ddl.append(" PRIMARY KEY (`" + entityDescriptor.getIdDescriptor().getColName() + "`) )");
                     ddls.add(ddl.toString());

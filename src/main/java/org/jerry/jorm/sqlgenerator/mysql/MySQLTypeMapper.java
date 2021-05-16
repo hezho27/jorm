@@ -1,5 +1,7 @@
 package org.jerry.jorm.sqlgenerator.mysql;
 
+import org.jerry.jorm.annotation.TemporalType;
+
 import java.util.Date;
 
 /**
@@ -7,19 +9,34 @@ import java.util.Date;
  */
 public class MySQLTypeMapper {
 
-    public static String mapping(Class clazz) {
+
+    public static String mapping(Class clazz, long length,
+                                 boolean lob, TemporalType temporalType) {
         if (clazz == String.class || clazz.isEnum()) {
-            return "VARCHAR(255)";
+            if (lob) {
+                return "TEXT";
+            } else {
+                return "VARCHAR(" + length + ")";
+            }
         } else if (clazz == Integer.class || clazz == int.class) {
             return "INT";
         } else if (clazz == Long.class || clazz == long.class) {
-            return "INT(11)";
+            return "BIGINT";
         } else if (clazz == Double.class || clazz == double.class) {
-            return "DOUBLE";
+            return "FLOAT";
         } else if (clazz == Float.class || clazz == float.class) {
             return "FLOAT";
         } else if (clazz == Date.class) {
-            return "DATETIME";
+            switch (temporalType){
+                case TIMESTAMP:
+                    return "DATETIME";
+                case DATE:
+                    return "DATE";
+                case TIME:
+                    return "TIME";
+                default:
+                    return "DATETIME";
+            }
         } else if (clazz == Boolean.class || clazz == boolean.class) {
             return "BIT";
         } else {

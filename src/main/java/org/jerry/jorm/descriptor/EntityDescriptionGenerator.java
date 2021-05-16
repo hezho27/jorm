@@ -67,13 +67,42 @@ public class EntityDescriptionGenerator {
                 if (column == null) {
                     String sqlName = NameConverter.javaName2sqlName(propertyDescriptor.getName());
                     descriptor.setColName(sqlName);
+                    descriptor.setLength(255);
+                    descriptor.setNullable(true);
+                    descriptor.setUnique(false);
                 } else {
-                    descriptor.setColName(column.name());
+                    if (column.name() == null || "".equals(column.name())) {
+                        String sqlName = NameConverter.javaName2sqlName(propertyDescriptor.getName());
+                        descriptor.setColName(sqlName);
+                    } else {
+                        descriptor.setColName(column.name());
+                    }
+                    descriptor.setLength(column.length());
+                    descriptor.setNullable(column.nullable());
+                    descriptor.setUnique(column.unique());
                 }
                 Id id = readMethod.getAnnotation(Id.class);
                 if (id != null) {
+                    Auto auto = readMethod.getAnnotation(Auto.class);
+                    if (auto != null) {
+                        descriptor.setAuto(true);
+                    }
+                    descriptor.setId(true);
                     entityDescriptor.setIdDescriptor(descriptor);
                 }
+                Lob lob = readMethod.getAnnotation(Lob.class);
+                if (lob != null) {
+                    descriptor.setLob(true);
+                }
+
+                Temporal temporal = readMethod.getAnnotation(Temporal.class);
+                if (temporal != null) {
+                    descriptor.setTemporalType(temporal.value());
+                } else {
+                    descriptor.setTemporalType(TemporalType.TIMESTAMP);
+                }
+
+
                 descriptor.setWriteMethod(propertyDescriptor.getWriteMethod());
                 descriptor.setReadMethod(propertyDescriptor.getReadMethod());
                 entityDescriptor.addEntityPropertyDescriptor(descriptor);
