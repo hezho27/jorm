@@ -58,7 +58,6 @@ public abstract class BasicDaoImpl<T, ID extends Serializable> extends NamedPara
     public void save(T t) {
         String sql = sqlGenerator.generateInsertSql(entityDescriptor, t);
         SqlParameterSource params = new JBeanPropertySqlParameterSource(t);
-        getNamedParameterJdbcTemplate().update(sql, params);
         EntityPropertyDescriptor idDescriptor = entityDescriptor.getIdDescriptor();
         if (idDescriptor.isAuto()) {
             KeyHolder keyHolder = new GeneratedKeyHolder();
