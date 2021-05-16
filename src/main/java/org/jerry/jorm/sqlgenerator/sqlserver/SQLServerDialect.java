@@ -7,7 +7,7 @@ import org.jerry.jorm.sqlgenerator.SQLGenerator;
 /**
  * Created by Jerry.Yong on 2014/11/5.
  */
-public class SQLServerSQLDialect extends Dialect {
+public class SQLServerDialect extends Dialect {
 
     @Override
     public SQLGenerator getSqlGenerator() {

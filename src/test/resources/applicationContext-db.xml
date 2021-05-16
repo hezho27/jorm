@@ -41,7 +41,7 @@
         <property name="entityPackages" value="org.jerry.jorm.test.entiry"/>
         <property name="showSql" value="true"/>
         <property name="detail">
-            <bean class="org.jerry.jorm.sqlgenerator.sqlserver.SQLServerSQLDialect"/>
+            <bean class="org.jerry.jorm.sqlgenerator.sqlserver.SQLServerDialect"/>
         </property>
     </bean>
 

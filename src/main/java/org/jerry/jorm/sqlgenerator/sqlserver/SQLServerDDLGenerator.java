@@ -49,12 +49,12 @@ public class SQLServerDDLGenerator extends DDLGenerator {
                         String colName = entityPropertyDescriptor.getColName();
                         Class clazz = entityPropertyDescriptor.getType();
                         if (!dbColnmns.contains(colName)) {
-                            ddl.append(" add " + colName + " " + SQLServerTypeMapper.mapping(clazz) + ",");
+                            ddl.append("  " + colName + " " + SQLServerTypeMapper.mapping(clazz) + ",");
                         }
                     }
 
                     if (ddl.length() > 0) {
-                        ddls.add("alter table " + tableName + " " + ddl.deleteCharAt(ddl.length() - 1));
+                        ddls.add("alter table " + tableName + " add " + ddl.deleteCharAt(ddl.length() - 1));
                     }
 
                 } else { //创建表
