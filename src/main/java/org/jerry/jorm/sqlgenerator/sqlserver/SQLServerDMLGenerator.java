@@ -41,14 +41,14 @@ public class SQLServerDMLGenerator implements SQLGenerator {
         List<EntityPropertyDescriptor> propertyDescriptors = entityDescriptor.getEntityPropertyDescriptors();
         selectSql.append("select");
         for (EntityPropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            selectSql.append(" " + propertyDescriptor.getColName() + ",");
+            selectSql.append(" [" + propertyDescriptor.getColName() + "],");
         }
         selectSql.deleteCharAt(selectSql.length() - 1);
         selectSql.append(" from ");
-        selectSql.append("" + entityDescriptor.getTableName() + "");
+        selectSql.append(" [" + entityDescriptor.getTableName() + "] ");
         selectSql.append(" where ");
         EntityPropertyDescriptor idPropertyDescriptor = entityDescriptor.getIdDescriptor();
-        selectSql.append("" + idPropertyDescriptor.getColName() + " = :" + idPropertyDescriptor.getPropertyName());
+        selectSql.append(" [" + idPropertyDescriptor.getColName() + "] = :" + idPropertyDescriptor.getPropertyName());
         selectByIdSql = selectSql.toString();
         crud.setSelectByIdSql(selectByIdSql);
         showSql(selectByIdSql);
@@ -61,7 +61,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
             List<EntityPropertyDescriptor> propertyDescriptors = entityDescriptor.getEntityPropertyDescriptors();
             StringBuffer insertSql = new StringBuffer();
             insertSql.append("insert into ");
-            insertSql.append("" + entityDescriptor.getTableName() + "");
+            insertSql.append(" [" + entityDescriptor.getTableName() + "] ");
             StringBuffer temp1 = new StringBuffer("( ");
             StringBuffer temp2 = new StringBuffer("( ");
             for (EntityPropertyDescriptor propertyDescriptor : propertyDescriptors) {
@@ -69,7 +69,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
                 if (value == null) {
                     continue;
                 }
-                temp1.append(" " + propertyDescriptor.getColName() + ",");
+                temp1.append(" [" + propertyDescriptor.getColName() + "],");
                 temp2.append(" :" + propertyDescriptor.getPropertyName() + ",");
             }
             temp1.deleteCharAt(temp1.length() - 1).append(" )");
@@ -92,7 +92,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
             List<EntityPropertyDescriptor> propertyDescriptors = entityDescriptor.getEntityPropertyDescriptors();
             StringBuffer updateSql = new StringBuffer();
             updateSql.append("update ");
-            updateSql.append("" + entityDescriptor.getTableName() + "");
+            updateSql.append(" [" + entityDescriptor.getTableName() + "] ");
             updateSql.append(" set ");
             for (EntityPropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 if (propertyDescriptor.getColName().equalsIgnoreCase(entityDescriptor.getIdDescriptor().getColName())) {
@@ -102,12 +102,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
                 if (ignoreNull && value == null) {
                     continue;
                 }
-                updateSql.append("" + propertyDescriptor.getColName() + " = :" + propertyDescriptor.getPropertyName() + ",");
+                updateSql.append(" [" + propertyDescriptor.getColName() + "] = :" + propertyDescriptor.getPropertyName() + ",");
             }
             updateSql.deleteCharAt(updateSql.length() - 1);
             updateSql.append(" where ");
             EntityPropertyDescriptor idPropertyDescriptor = entityDescriptor.getIdDescriptor();
-            updateSql.append("" + idPropertyDescriptor.getColName() + " = :" + idPropertyDescriptor.getPropertyName());
+            updateSql.append(" [" + idPropertyDescriptor.getColName() + "] = :" + idPropertyDescriptor.getPropertyName());
             showSql(updateSql);
             return updateSql.toString();
         } catch (IllegalAccessException e) {
@@ -123,12 +123,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateUpdateSql(EntityDescriptor entityDescriptor, Map<String, Object> updateProperties, Filter... filters) {
         StringBuffer updateSql = new StringBuffer();
         updateSql.append("update ");
-        updateSql.append("" + entityDescriptor.getTableName() + "");
+        updateSql.append(" [" + entityDescriptor.getTableName() + "] ");
         updateSql.append(" set ");
         for (Map.Entry<String, Object> entry : updateProperties.entrySet()) {
             String propertyName = entry.getKey();
             EntityPropertyDescriptor descriptor = entityDescriptor.getEntityPropertyDescriptorByPropertyName(propertyName);
-            updateSql.append("" + descriptor.getColName() + " =:" + propertyName + ",");
+            updateSql.append(" [" + descriptor.getColName() + "] =:" + propertyName + ",");
 
         }
         updateSql.deleteCharAt(updateSql.length() - 1);
@@ -146,12 +146,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateUpdateSql(EntityDescriptor entityDescriptor, Map<String, Object> updateProperties, Expression expression, List<Filter> filters) {
         StringBuffer updateSql = new StringBuffer();
         updateSql.append("update ");
-        updateSql.append("" + entityDescriptor.getTableName() + "");
+        updateSql.append(" [" + entityDescriptor.getTableName() + "] ");
         updateSql.append(" set ");
         for (Map.Entry<String, Object> entry : updateProperties.entrySet()) {
             String propertyName = entry.getKey();
             EntityPropertyDescriptor descriptor = entityDescriptor.getEntityPropertyDescriptorByPropertyName(propertyName);
-            updateSql.append("" + descriptor.getColName() + " =:" + propertyName + ",");
+            updateSql.append(" [" + descriptor.getColName() + "] =:" + propertyName + ",");
 
         }
         updateSql.deleteCharAt(updateSql.length() - 1);
@@ -184,10 +184,10 @@ public class SQLServerDMLGenerator implements SQLGenerator {
 
         StringBuffer deleteSql = new StringBuffer();
         deleteSql.append("delete from ");
-        deleteSql.append("" + entityDescriptor.getTableName() + "");
+        deleteSql.append(" [" + entityDescriptor.getTableName() + "] ");
         deleteSql.append(" where ");
         EntityPropertyDescriptor idPropertyDescriptor = entityDescriptor.getIdDescriptor();
-        deleteSql.append("" + idPropertyDescriptor.getColName() + " = :" + idPropertyDescriptor.getPropertyName());
+        deleteSql.append(" [" + idPropertyDescriptor.getColName() + "] = :" + idPropertyDescriptor.getPropertyName());
         deleteByIdSql = deleteSql.toString();
         crud.setSelectByIdSql(deleteByIdSql);
         showSql(deleteByIdSql);
@@ -199,7 +199,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateDeleteSql(EntityDescriptor entityDescriptor, Filter... filters) {
         StringBuffer deleteSql = new StringBuffer();
         deleteSql.append("delete from ");
-        deleteSql.append("" + entityDescriptor.getTableName() + "");
+        deleteSql.append(" [" + entityDescriptor.getTableName() + "] ");
         if (filters == null || filters.length == 0) {
             return deleteSql.toString();
         }
@@ -215,7 +215,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateDeleteSql(EntityDescriptor entityDescriptor, Expression expression, List<Filter> filters) {
         StringBuffer deleteSql = new StringBuffer();
         deleteSql.append("delete from ");
-        deleteSql.append("" + entityDescriptor.getTableName() + "");
+        deleteSql.append(" [" + entityDescriptor.getTableName() + "] ");
 
         StringBuffer filterSql = new StringBuffer();
         filters = filters == null ? new ArrayList<Filter>() : filters;
@@ -239,12 +239,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
             selectSql.append(" top " + count + " ");
         }
         for (EntityPropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            selectSql.append(" " + propertyDescriptor.getColName() + ",");
+            selectSql.append(" [" + propertyDescriptor.getColName() + "] ,");
         }
         selectSql.deleteCharAt(selectSql.length() - 1);
         selectSql.append(" from ");
         String tableName = entityDescriptor.getTableName();
-        selectSql.append(" " + tableName + " ");
+        selectSql.append(" [" + tableName + "] ");
 
         boolean hasFilters = filters != null && filters.size() > 0;
         String filtersStr = "";
@@ -268,12 +268,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
                 selectSql.append(" where ");
             }
             String idColName = entityDescriptor.getIdDescriptor().getColName();
-            selectSql.append(" " + idColName + " ");
+            selectSql.append(" [" + idColName + "] ");
             selectSql.append(" not in ( ");
             selectSql.append(" select top " + first + " ");
-            selectSql.append(" " + idColName + " ");
+            selectSql.append(" [" + idColName + "] ");
             selectSql.append(" from ");
-            selectSql.append(" " + tableName + " ");
+            selectSql.append(" [" + tableName + "] ");
             if (hasFilters) {
                 selectSql.append(" where ");
                 selectSql.append(filtersStr);
@@ -309,12 +309,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
             selectSql.append(" top " + count + " ");
         }
         for (EntityPropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            selectSql.append(" " + propertyDescriptor.getColName() + ",");
+            selectSql.append(" [" + propertyDescriptor.getColName() + "],");
         }
         selectSql.deleteCharAt(selectSql.length() - 1);
         selectSql.append(" from ");
         String tableName = entityDescriptor.getTableName();
-        selectSql.append(" " + tableName + " ");
+        selectSql.append(" [" + tableName + "] ");
 
         StringBuffer filtersStr = new StringBuffer();
         filters = filters == null ? new ArrayList<Filter>() : filters;
@@ -346,12 +346,12 @@ public class SQLServerDMLGenerator implements SQLGenerator {
                 selectSql.append(" where ");
             }
             String idColName = entityDescriptor.getIdDescriptor().getColName();
-            selectSql.append(" " + idColName + " ");
+            selectSql.append(" [" + idColName + "] ");
             selectSql.append(" not in ( ");
             selectSql.append(" select top " + first + " ");
-            selectSql.append(" " + idColName + " ");
+            selectSql.append(" [" + idColName + "] ");
             selectSql.append(" from ");
-            selectSql.append(" " + tableName + " ");
+            selectSql.append(" [" + tableName + "] ");
             if (hasFilters) {
                 selectSql.append(" where ");
                 selectSql.append(filtersStr);
@@ -380,7 +380,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateSelectCountSql(EntityDescriptor entityDescriptor, Filter... filters) {
         StringBuffer selectSql = new StringBuffer();
         selectSql.append("select count(1) from ");
-        selectSql.append("" + entityDescriptor.getTableName() + "");
+        selectSql.append(" [" + entityDescriptor.getTableName() + "] ");
         if (filters != null && filters.length > 0) {
             selectSql.append(" where ");
             selectSql.append(" " + buildFilterSql(entityDescriptor, filters) + " ");
@@ -393,7 +393,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
     public String generateSelectCountSql(EntityDescriptor entityDescriptor, Expression expression, List<Filter> filters) {
         StringBuffer selectSql = new StringBuffer();
         selectSql.append("select count(1) from ");
-        selectSql.append("" + entityDescriptor.getTableName() + " ");
+        selectSql.append(" [" + entityDescriptor.getTableName() + "] ");
         StringBuffer filterSql = new StringBuffer();
         filters = filters == null ? new ArrayList<Filter>() : filters;
         r(expression, entityDescriptor, filterSql, filters);
@@ -430,7 +430,7 @@ public class SQLServerDMLGenerator implements SQLGenerator {
         orderSql.append(" order by ");
         for (Order order : orders) {
             String columnName = entityDescriptor.getEntityPropertyDescriptorByPropertyName(order.getProperty()).getColName();
-            orderSql.append(" " + columnName + " " + order.getDirection().name() + ",");
+            orderSql.append(" [" + columnName + "] " + order.getDirection().name() + ",");
         }
         orderSql.deleteCharAt(orderSql.length() - 1);
         return orderSql.toString();
@@ -490,29 +490,29 @@ public class SQLServerDMLGenerator implements SQLGenerator {
         StringBuffer filterSql = new StringBuffer();
         switch (operator) {
             case eq:
-                filterSql.append(" " + columnName + " = :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] = :" + propertyName + "_filter_jerry_" + i);
                 break;
             case ne:
-                filterSql.append(" " + columnName + " != :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] != :" + propertyName + "_filter_jerry_" + i);
                 break;
             case ge:
-                filterSql.append(" " + columnName + " >= :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] >= :" + propertyName + "_filter_jerry_" + i);
                 break;
             case gt:
-                filterSql.append(" " + columnName + " > :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] > :" + propertyName + "_filter_jerry_" + i);
                 break;
             case le:
-                filterSql.append(" " + columnName + " <= :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] <= :" + propertyName + "_filter_jerry_" + i);
                 break;
             case lt:
-                filterSql.append(" " + columnName + " < :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] < :" + propertyName + "_filter_jerry_" + i);
                 break;
             case like:
-                filterSql.append(" " + columnName + " like :" + propertyName + "_filter_jerry_" + i);
+                filterSql.append(" [" + columnName + "] like :" + propertyName + "_filter_jerry_" + i);
                 break;
             case in:
                 Collection collection = (Collection) filter.getValue();
-                filterSql.append(" " + columnName + " in ( ");
+                filterSql.append(" [" + columnName + "] in ( ");
                 for (int j = 0; j < collection.size(); j++) {
                     filterSql.append(" :" + propertyName + "_filter_in_jerry_" + j + ",");
                 }
@@ -520,10 +520,10 @@ public class SQLServerDMLGenerator implements SQLGenerator {
                 filterSql.append(" ) ");
                 break;
             case isNull:
-                filterSql.append(" " + columnName + " is null ");
+                filterSql.append(" [" + columnName + "] is null ");
                 break;
             case isNotNull:
-                filterSql.append(" " + columnName + " is not null ");
+                filterSql.append(" [" + columnName + "] is not null ");
                 break;
 
         }

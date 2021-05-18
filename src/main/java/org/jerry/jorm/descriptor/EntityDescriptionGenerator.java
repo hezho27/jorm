@@ -3,6 +3,7 @@ package org.jerry.jorm.descriptor;
 
 import org.jerry.jorm.NameConverter;
 import org.jerry.jorm.annotation.*;
+import org.jerry.jorm.exception.NoIdAnnotationException;
 import org.jerry.jorm.util.ClassUtils;
 
 import java.beans.IntrospectionException;
@@ -36,6 +37,9 @@ public class EntityDescriptionGenerator {
             }
 
             buildEntityPropertyDescriptor(entityDescriptor);
+            if (entityDescriptor.getIdDescriptor() == null) {
+                throw new NoIdAnnotationException(aClass.getName() + "类缺少@Id注解");
+            }
             entityDescriptors.put(aClass.getName(), entityDescriptor);
         }
 

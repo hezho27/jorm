@@ -27,7 +27,7 @@ public class SQLServerDDLGenerator extends DDLGenerator {
             Map<String, EntityDescriptor> descriptorMap = entityDescriptionManager.getEntityDescriptorMap();
             for (Map.Entry<String, EntityDescriptor> entry : descriptorMap.entrySet()) {
                 String tableName = entry.getValue().getTableName();
-                String sql = "SELECT TOP 0 * FROM " + tableName;
+                String sql = "SELECT TOP 0 * FROM  [" + tableName+"]";
                 ResultSet tableResultSet = databaseMetaData.getTables(null, null, tableName, types);
                 EntityDescriptor entityDescriptor = entry.getValue();
                 List<EntityPropertyDescriptor> entityPropertyDescriptors = entityDescriptor.getEntityPropertyDescriptors();
@@ -48,7 +48,7 @@ public class SQLServerDDLGenerator extends DDLGenerator {
                         String colName = entityPropertyDescriptor.getColName();
                         Class clazz = entityPropertyDescriptor.getType();
                         if (!dbColnmns.contains(colName)) {
-                            ddl.append("  " + colName + " " + SQLServerTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
+                            ddl.append("  [" + colName + "] " + SQLServerTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
                             if (!entityPropertyDescriptor.isNullable()) {
                                 ddl.append(" NOT NULL ");
                             }
@@ -57,20 +57,20 @@ public class SQLServerDDLGenerator extends DDLGenerator {
                                 ddl.append(" UNIQUE ");
                             }
 
-                            ddl.append(" , ");
+                            ddl.append(" ,");
                         }
                     }
 
                     if (ddl.length() > 0) {
-                        ddls.add("alter table " + tableName + " add " + ddl.deleteCharAt(ddl.length() - 1));
+                        ddls.add("alter table [" + tableName + "] add " + ddl.deleteCharAt(ddl.length() - 1));
                     }
 
                 } else { //创建表
-                    ddl.append("create table " + tableName + " (");
+                    ddl.append("create table [" + tableName + "] (");
                     for (EntityPropertyDescriptor entityPropertyDescriptor : entityPropertyDescriptors) {
                         String colName = entityPropertyDescriptor.getColName();
                         Class clazz = entityPropertyDescriptor.getType();
-                        ddl.append(" " + colName + " " + SQLServerTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
+                        ddl.append(" [" + colName + "] " + SQLServerTypeMapper.mapping(clazz, entityPropertyDescriptor.getLength(), entityPropertyDescriptor.isLob(), entityPropertyDescriptor.getTemporalType()));
                         if (!entityPropertyDescriptor.isNullable()) {
                             ddl.append(" NOT NULL ");
                         }
@@ -85,7 +85,7 @@ public class SQLServerDDLGenerator extends DDLGenerator {
 
                         ddl.append(" , ");
                     }
-                    ddl.append(" PRIMARY KEY (" + entityDescriptor.getIdDescriptor().getColName() + ") )");
+                    ddl.append(" PRIMARY KEY ([" + entityDescriptor.getIdDescriptor().getColName() + "]) )");
                     ddls.add(ddl.toString());
                 }
             }

@@ -19,6 +19,7 @@ public class Person extends BaseEntity {
     private Integer age;
     private String address;
     private Date birthday;
+    private String testAdd;
 
 
 
@@ -63,6 +64,14 @@ public class Person extends BaseEntity {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getTestAdd() {
+        return testAdd;
+    }
+
+    public void setTestAdd(String testAdd) {
+        this.testAdd = testAdd;
     }
 
     @Override

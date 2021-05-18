@@ -27,7 +27,7 @@ public class MySQLDDLGenerator extends DDLGenerator {
             Map<String, EntityDescriptor> descriptorMap = entityDescriptionManager.getEntityDescriptorMap();
             for (Map.Entry<String, EntityDescriptor> entry : descriptorMap.entrySet()) {
                 String tableName = entry.getValue().getTableName();
-                String sql = "SELECT * FROM " + tableName + " limit 0";
+                String sql = "SELECT * FROM `" + tableName + "` limit 0";
                 ResultSet tableResultSet = databaseMetaData.getTables(null, null, tableName, types);
                 EntityDescriptor entityDescriptor = entry.getValue();
                 List<EntityPropertyDescriptor> entityPropertyDescriptors = entityDescriptor.getEntityPropertyDescriptors();
@@ -57,7 +57,7 @@ public class MySQLDDLGenerator extends DDLGenerator {
                                 ddl.append(" UNIQUE ");
                             }
 
-                            ddl.append(" , ");
+                            ddl.append(" ,");
                         }
                     }
 
